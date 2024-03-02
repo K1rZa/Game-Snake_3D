@@ -5,19 +5,44 @@ const createScene = function () {
 	const scene = new BABYLON.Scene(engine)
 	scene.clearColor = new BABYLON.Color3.Black()
 
-    const alpha = Math.PI/4
-    const beta = Math.PI/3
-    const radius = 8
-    const target = new BABYLON.Vector3(0, 0, 0)
+	var camera = new BABYLON.FreeCamera(
+		'camera1',
+		new BABYLON.Vector3(0, 1300, -900),
+		scene
+	)
 
-    const camera = new BABYLON.ArcRotateCamera("Camera", alpha, beta, radius, target, scene)
-    camera.attachControl(canvas, true)
+	camera.setTarget(BABYLON.Vector3.Zero())
 
-    const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0))
+	camera.attachControl(canvas, true)
 
-    const box = BABYLON.MeshBuilder.CreateBox('box', {})
-	box.position.x = 0.5
-	box.position.y = 1
+	var light = new BABYLON.HemisphericLight(
+		'light',
+		new BABYLON.Vector3(0, 1, 0),
+		scene
+	)
+
+	light.intensity = 0.7
+
+    const ground_material = new BABYLON.StandardMaterial("ground_material", scene)
+    ground_material.diffuseColor = new BABYLON.Color3(0, 0.75, 0)
+
+	var ground = BABYLON.MeshBuilder.CreateGround(
+		'ground',
+		{ width: 1152, height: 1152 },
+		scene
+	)
+    ground.material = ground_material
+
+	const box_material = new BABYLON.StandardMaterial('box_material', scene)
+	box_material.diffuseColor = new BABYLON.Color3(1, 1, 1)
+
+	var box = BABYLON.MeshBuilder.CreateBox(
+		'box',
+		{ width: 64, height: 64, depth: 64 },
+		scene
+	)
+	box.material = box_material
+	box.position.y = 32
 
 	return scene
 }
