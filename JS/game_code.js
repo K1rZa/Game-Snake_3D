@@ -20,8 +20,6 @@ const createScene = function () {
 
 	camera.setTarget(BABYLON.Vector3.Zero())
 
-	camera.attachControl(canvas, true)
-
 	var light = new BABYLON.DirectionalLight(
 		'light',
 		new BABYLON.Vector3(-100, -500, 250),
