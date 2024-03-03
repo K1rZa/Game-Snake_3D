@@ -26,7 +26,15 @@ const createScene = function () {
 		scene
 	)
 
-	light.intensity = 0.8
+	light.intensity = 0.2
+
+	var light_global = new BABYLON.HemisphericLight(
+		'light_global',
+		new BABYLON.Vector3(0, 0.5, -0.3),
+		scene
+	)
+
+	light_global.intensity = 0.8
 
 	const ground_material = new BABYLON.StandardMaterial('ground_material', scene)
 	ground_material.diffuseColor = new BABYLON.Color3(0, 0.75, 0)
