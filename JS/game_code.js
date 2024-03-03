@@ -1,9 +1,11 @@
 const canvas = document.getElementById('game')
 const engine = new BABYLON.Engine(canvas, true)
 
+const tile = 32
+
 const createScene = function () {
 	const scene = new BABYLON.Scene(engine)
-	scene.clearColor = new BABYLON.Color3.Black()
+	scene.clearColor = new BABYLON.Color3.FromHexString('#164723')
 
 	var camera = new BABYLON.ArcRotateCamera(
 		'camera',
@@ -55,7 +57,12 @@ const createScene = function () {
 		{ width: 32, height: 32, depth: 32 },
 		scene
 	)
+	let x = 0
+	let z = 0
 	box.material = box_material
+	box.position.x = x
+	box.position.z = z
+
 	box.position.y = 16
 
 	var shadow = new BABYLON.ShadowGenerator(512, light)
