@@ -59,15 +59,30 @@ const createScene = function () {
 		'test_ground.glb',
 		scene,
 		function (meshArray) {
-			test = meshArray[0]
-			test.scaling = new BABYLON.Vector3(320, 320, 320)
-			test.position = new BABYLON.Vector3(16, -16, -16)
-			shadow.addShadowCaster(test)
-			test.receiveShadows = true
+			test_ground = meshArray[0]
+			test_ground.scaling = new BABYLON.Vector3(320, 320, 320)
+			test_ground.position = new BABYLON.Vector3(16, -16, -16)
+			shadow.addShadowCaster(test_ground)
+			test_ground.receiveShadows = true
 		}
 	)
 
-	const box_material = new BABYLON.StandardMaterial('box_material', scene)
+	BABYLON.SceneLoader.ImportMesh(
+		null,
+		'./Resources/',
+		'test_box.glb',
+		scene,
+		function (meshArray) {
+			test_box = meshArray[0]
+			test_box.rotation = new BABYLON.Vector3(0, (Math.PI * 0) / 180, 0)
+			test_box.scaling = new BABYLON.Vector3(20, 22, 32)
+			test_box.position = new BABYLON.Vector3(0, 16, 0)
+			shadow.addShadowCaster(test_box)
+			test_box.receiveShadows = true
+		}
+	)
+
+	/*const box_material = new BABYLON.StandardMaterial('box_material', scene)
 	box_material.diffuseColor = new BABYLON.Color3.FromHexString('#09b1d6')
 
 	var box = BABYLON.MeshBuilder.CreateBox(
@@ -85,7 +100,7 @@ const createScene = function () {
 
 	var shadow = new BABYLON.ShadowGenerator(512, light)
 	shadow.usePoissonSampling = true
-	shadow.getShadowMap().renderList.push(box)
+	shadow.getShadowMap().renderList.push(box)*/
 
 	return scene
 }
