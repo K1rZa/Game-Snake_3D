@@ -23,7 +23,7 @@ const createScene = function () {
 
 	camera.wheelDeltaPercentage = 0.01
 
-	camera.setTarget(BABYLON.Vector3.Zero())
+	camera.setTarget(new BABYLON.Vector3(0, 16, 0))
 	camera.attachControl(canvas, true)
 
 	var light = new BABYLON.DirectionalLight(
@@ -53,6 +53,9 @@ const createScene = function () {
 	ground.material = ground_material
 	ground.receiveShadows = true*/
 
+	var shadow = new BABYLON.ShadowGenerator(512, light)
+	shadow.usePoissonSampling = true
+
 	BABYLON.SceneLoader.ImportMesh(
 		null,
 		'./Resources/',
@@ -62,7 +65,7 @@ const createScene = function () {
 			test_ground = meshArray[0]
 			test_ground.scaling = new BABYLON.Vector3(320, 320, 320)
 			test_ground.position = new BABYLON.Vector3(16, -16, -16)
-			shadow.addShadowCaster(test_ground)
+			ShadowGenerator.addShadowCaster(test_ground)
 			test_ground.receiveShadows = true
 		}
 	)
@@ -77,7 +80,7 @@ const createScene = function () {
 			test_box.rotation = new BABYLON.Vector3(0, (Math.PI * 0) / 180, 0)
 			test_box.scaling = new BABYLON.Vector3(20, 22, 32)
 			test_box.position = new BABYLON.Vector3(0, 16, 0)
-			shadow.addShadowCaster(test_box)
+			ShadowGenerator.addShadowCaster(test_box)
 			test_box.receiveShadows = true
 		}
 	)
