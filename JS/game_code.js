@@ -5,7 +5,12 @@ const tile = 32
 
 const createScene = function () {
 	const scene = new BABYLON.Scene(engine)
-	scene.clearColor = new BABYLON.Color3.FromHexString('#164723')
+	scene.clearColor = new BABYLON.Color3.FromHexString('#38597d')
+	scene.createDefaultEnvironment({
+		createSkybox: false,
+		createGround: true,
+		cameraContrast: 2,
+	})
 
 	var camera = new BABYLON.ArcRotateCamera(
 		'camera',
@@ -16,9 +21,10 @@ const createScene = function () {
 		scene
 	)
 
-	camera.wheelDeltaPercentage = 0.1
+	camera.wheelDeltaPercentage = 0.01
 
 	camera.setTarget(BABYLON.Vector3.Zero())
+	camera.attachControl(canvas, true)
 
 	var light = new BABYLON.DirectionalLight(
 		'light',
@@ -26,7 +32,7 @@ const createScene = function () {
 		scene
 	)
 
-	light.intensity = 0.2
+	light.intensity = 0.4
 
 	var light_global = new BABYLON.HemisphericLight(
 		'light_global',
@@ -34,9 +40,9 @@ const createScene = function () {
 		scene
 	)
 
-	light_global.intensity = 0.8
+	light_global.intensity = 1
 
-	const ground_material = new BABYLON.StandardMaterial('ground_material', scene)
+	/*const ground_material = new BABYLON.StandardMaterial('ground_material', scene)
 	ground_material.diffuseColor = new BABYLON.Color3(0, 0.75, 0)
 
 	var ground = BABYLON.MeshBuilder.CreateBox(
@@ -44,11 +50,25 @@ const createScene = function () {
 		{ width: 672, height: 32, depth: 672 },
 		scene
 	)
-	ground.receiveShadows = true
 	ground.material = ground_material
+	ground.receiveShadows = true*/
+
+	BABYLON.SceneLoader.ImportMesh(
+		null,
+		'./Resources/',
+		'test_ground.glb',
+		scene,
+		function (meshArray) {
+			test = meshArray[0]
+			test.scaling = new BABYLON.Vector3(320, 320, 320)
+			test.position = new BABYLON.Vector3(16, -16, -16)
+			shadow.addShadowCaster(test)
+			test.receiveShadows = true
+		}
+	)
 
 	const box_material = new BABYLON.StandardMaterial('box_material', scene)
-	box_material.diffuseColor = new BABYLON.Color3(1, 1, 1)
+	box_material.diffuseColor = new BABYLON.Color3.FromHexString('#09b1d6')
 
 	var box = BABYLON.MeshBuilder.CreateBox(
 		'box',
