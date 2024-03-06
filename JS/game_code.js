@@ -3,6 +3,8 @@ const engine = new BABYLON.Engine(canvas, true)
 
 const tile = 32
 
+var score = 0
+
 function random_int(min, max) {
 	return Math.floor(Math.random() * (max - (min - 1))) + min
 }
@@ -71,7 +73,7 @@ const createScene = function () {
 	BABYLON.SceneLoader.ImportMesh(
 		null,
 		'./Resources/',
-		'test_ground.glb',
+		'ground_alt.glb',
 		scene,
 		function (meshArray) {
 			test_ground = meshArray[0]
@@ -130,6 +132,9 @@ const createScene = function () {
 
 	food.position.x = food_position().x
 	food.position.z = food_position().z
+
+	var score_draw = document.getElementById('score')
+	score_draw.innerHTML = score
 
 	return scene
 }
