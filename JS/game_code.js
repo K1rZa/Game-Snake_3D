@@ -31,14 +31,13 @@ const createScene = function () {
 		0,
 		0,
 		10,
-		new BABYLON.Vector3(0, 600, -800),
+		new BABYLON.Vector3(0, 700, -600),
 		scene
 	)
 
 	camera.wheelDeltaPercentage = 0.01
 
 	camera.setTarget(new BABYLON.Vector3(0, 16, 0))
-	camera.attachControl(canvas, true)
 
 	var light = new BABYLON.DirectionalLight(
 		'light',
