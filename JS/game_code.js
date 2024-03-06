@@ -3,7 +3,7 @@ const engine = new BABYLON.Engine(canvas, true)
 
 const tile = 32
 
-var score = 0
+let score = 0
 
 function random_int(min, max) {
 	return Math.floor(Math.random() * (max - (min - 1))) + min
@@ -138,6 +138,10 @@ const createScene = function () {
 		}
 	)*/
 
+	if (box.position.x === food.position.x) {
+		score = 10
+	}
+
 	var shadow = new BABYLON.ShadowGenerator(512, light)
 	shadow.usePoissonSampling = true
 	shadow.getShadowMap().renderList.push(box, food)
@@ -146,6 +150,8 @@ const createScene = function () {
 	score_draw.innerHTML = score
 
 	return scene
+
+	
 }
 
 const sceneToRender = createScene()
