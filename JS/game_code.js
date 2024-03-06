@@ -31,20 +31,19 @@ const createScene = function () {
 		0,
 		0,
 		10,
-		new BABYLON.Vector3(0, 700, -600),
+		new BABYLON.Vector3(0, 750, -550),
 		scene
 	)
 
 	camera.wheelDeltaPercentage = 0.01
-
 	camera.setTarget(new BABYLON.Vector3(0, 16, 0))
+	camera.attachControl(canvas, true)
 
 	var light = new BABYLON.DirectionalLight(
 		'light',
-		new BABYLON.Vector3(-100, -500, 250),
+		new BABYLON.Vector3(-200, -400, 250),
 		scene
 	)
-
 	light.intensity = 0.4
 
 	var light_global = new BABYLON.HemisphericLight(
@@ -52,24 +51,22 @@ const createScene = function () {
 		new BABYLON.Vector3(0, 0.5, -0.3),
 		scene
 	)
+	light_global.intensity = 0.8
 
-	light_global.intensity = 1
+	var shadow = new BABYLON.ShadowGenerator(512, light)
+	shadow.usePoissonSampling = true
 
-	/*const ground_material = new BABYLON.StandardMaterial('ground_material', scene)
-	ground_material.diffuseColor = new BABYLON.Color3(0, 0.75, 0)
-
+	const ground_material = new BABYLON.StandardMaterial('ground_material', scene)
+	ground_material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3)
 	var ground = BABYLON.MeshBuilder.CreateBox(
 		'ground',
 		{ width: 672, height: 32, depth: 672 },
 		scene
 	)
 	ground.material = ground_material
-	ground.receiveShadows = true*/
+	ground.receiveShadows = true
 
-	var shadow = new BABYLON.ShadowGenerator(512, light)
-	shadow.usePoissonSampling = true
-
-	BABYLON.SceneLoader.ImportMesh(
+	/*BABYLON.SceneLoader.ImportMesh(
 		null,
 		'./Resources/',
 		'ground_alt.glb',
@@ -82,7 +79,6 @@ const createScene = function () {
 			test_ground.receiveShadows = true
 		}
 	)
-
 	BABYLON.SceneLoader.ImportMesh(
 		null,
 		'./Resources/',
@@ -96,11 +92,10 @@ const createScene = function () {
 			ShadowGenerator.addShadowCaster(test_box)
 			test_box.receiveShadows = true
 		}
-	)
+	)*/
 
-	/*const box_material = new BABYLON.StandardMaterial('box_material', scene)
+	const box_material = new BABYLON.StandardMaterial('box_material', scene)
 	box_material.diffuseColor = new BABYLON.Color3.FromHexString('#09b1d6')
-
 	var box = BABYLON.MeshBuilder.CreateBox(
 		'box',
 		{ width: 32, height: 32, depth: 32 },
@@ -111,12 +106,7 @@ const createScene = function () {
 	box.material = box_material
 	box.position.x = x
 	box.position.z = z
-
 	box.position.y = 32
-
-	var shadow = new BABYLON.ShadowGenerator(512, light)
-	shadow.usePoissonSampling = true
-	shadow.getShadowMap().renderList.push(box)*/
 
 	var food_material = new BABYLON.StandardMaterial('food_material', scene)
 	food_material.diffuseColor = new BABYLON.Color3.Red()
@@ -147,6 +137,10 @@ const createScene = function () {
 			food.receiveShadows = true
 		}
 	)*/
+
+	var shadow = new BABYLON.ShadowGenerator(512, light)
+	shadow.usePoissonSampling = true
+	shadow.getShadowMap().renderList.push(box, food)
 
 	var score_draw = document.getElementById('score')
 	score_draw.innerHTML = score
