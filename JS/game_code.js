@@ -119,7 +119,7 @@ const createScene = function () {
 	shadow.usePoissonSampling = true
 	shadow.getShadowMap().renderList.push(box)*/
 
-	/*var food_material = new BABYLON.StandardMaterial('food_material', scene)
+	var food_material = new BABYLON.StandardMaterial('food_material', scene)
 	food_material.diffuseColor = new BABYLON.Color3.Red()
 
 	var food = BABYLON.MeshBuilder.CreateBox(
@@ -131,9 +131,9 @@ const createScene = function () {
 	food.position.y = 32
 
 	food.position.x = food_position().x
-	food.position.z = food_position().z*/
+	food.position.z = food_position().z
 
-	BABYLON.SceneLoader.ImportMesh(
+	/*BABYLON.SceneLoader.ImportMesh(
 		null,
 		'./Resources/',
 		'food.glb',
@@ -147,7 +147,7 @@ const createScene = function () {
 			ShadowGenerator.addShadowCaster(food)
 			food.receiveShadows = true
 		}
-	)
+	)*/
 
 	var score_draw = document.getElementById('score')
 	score_draw.innerHTML = score
