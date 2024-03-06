@@ -101,16 +101,11 @@ const createScene = function () {
 		{ width: 32, height: 32, depth: 32 },
 		scene
 	)
-	let x = 0
-	let z = 0
 	box.material = box_material
-	box.position.x = x
-	box.position.z = z
 	box.position.y = 32
 
 	var food_material = new BABYLON.StandardMaterial('food_material', scene)
 	food_material.diffuseColor = new BABYLON.Color3.Red()
-
 	var food = BABYLON.MeshBuilder.CreateBox(
 		'food',
 		{ width: 32, height: 32, depth: 32 },
@@ -118,7 +113,6 @@ const createScene = function () {
 	)
 	food.material = food_material
 	food.position.y = 32
-
 	food.position.x = food_position().x
 	food.position.z = food_position().z
 
@@ -138,10 +132,6 @@ const createScene = function () {
 		}
 	)*/
 
-	if (box.position.x === food.position.x) {
-		score = 10
-	}
-
 	var shadow = new BABYLON.ShadowGenerator(512, light)
 	shadow.usePoissonSampling = true
 	shadow.getShadowMap().renderList.push(box, food)
@@ -150,8 +140,6 @@ const createScene = function () {
 	score_draw.innerHTML = score
 
 	return scene
-
-	
 }
 
 const sceneToRender = createScene()
