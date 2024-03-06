@@ -3,12 +3,24 @@ const engine = new BABYLON.Engine(canvas, true)
 
 const tile = 32
 
+function random_int(min, max) {
+	return Math.floor(Math.random() * (max - (min - 1))) + min
+}
+function food_position() {
+	let x = random_int(-9, 9) * tile
+	let z = random_int(-9, 9) * tile
+	return {
+		x: x,
+		z: z,
+	}
+}
+
 const createScene = function () {
 	const scene = new BABYLON.Scene(engine)
 	scene.clearColor = new BABYLON.Color3.FromHexString('#38597d')
 	scene.createDefaultEnvironment({
 		createSkybox: false,
-		createGround: true,
+		createGround: false,
 		cameraContrast: 2,
 	})
 
@@ -104,6 +116,20 @@ const createScene = function () {
 	var shadow = new BABYLON.ShadowGenerator(512, light)
 	shadow.usePoissonSampling = true
 	shadow.getShadowMap().renderList.push(box)*/
+
+	var food_material = new BABYLON.StandardMaterial('food_material', scene)
+	food_material.diffuseColor = new BABYLON.Color3.Red()
+
+	var food = BABYLON.MeshBuilder.CreateBox(
+		'food',
+		{ width: 32, height: 32, depth: 32 },
+		scene
+	)
+	food.material = food_material
+	food.position.y = 32
+
+	food.position.x = food_position().x
+	food.position.z = food_position().z
 
 	return scene
 }
