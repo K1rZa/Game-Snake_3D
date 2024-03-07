@@ -132,28 +132,28 @@ const createScene = function () {
 		}
 	)*/
 
-		window.addEventListener('keydown', control)
-		function control(event) {
-			const key = event.key
-			let dir
-			if ((key === 'ArrowUp' || key === 'w') && dir !== 'ArrowDown') {
-				dir = 'ArrowUp'
-				box.position.z += tile
-				console.log(dir)
-			} else if ((key === 'ArrowDown' || key === 's') && dir !== 'ArrowUp') {
-				dir = 'ArrowDown'
-				box.position.z -= tile
-				console.log(dir)
-			} else if ((key === 'ArrowLeft' || key === 'a') && dir !== 'ArrowRight') {
-				dir = 'ArrowLeft'
-				box.position.x -= tile
-				console.log(dir)
-			} else if ((key === 'ArrowRight' || key === 'd') && dir !== 'ArrowLeft') {
-				dir = 'ArrowRight'
-				box.position.x += tile
-				console.log(dir)
-			}
+	window.addEventListener('keydown', control)
+	function control(event) {
+		const key = event.key
+		let dir
+		if ((key === 'ArrowUp' || key === 'w') && dir !== 'ArrowDown') {
+			dir = 'ArrowUp'
+			box.position.z += tile
+			console.log(dir)
+		} else if ((key === 'ArrowDown' || key === 's') && dir !== 'ArrowUp') {
+			dir = 'ArrowDown'
+			box.position.z -= tile
+			console.log(dir)
+		} else if ((key === 'ArrowLeft' || key === 'a') && dir !== 'ArrowRight') {
+			dir = 'ArrowLeft'
+			box.position.x -= tile
+			console.log(dir)
+		} else if ((key === 'ArrowRight' || key === 'd') && dir !== 'ArrowLeft') {
+			dir = 'ArrowRight'
+			box.position.x += tile
+			console.log(dir)
 		}
+	}
 
 	if (box.position.x != food.position.x) score = 10
 
@@ -162,13 +162,13 @@ const createScene = function () {
 	shadow.getShadowMap().renderList.push(box, food)
 
 	var score_draw = document.getElementById('score')
-	score_draw.innerHTML = score 
+	score_draw.innerHTML = score
 
 	return scene
 }
 
-const sceneToRender = createScene()
+var CreateScene = createScene()
 
 engine.runRenderLoop(function () {
-	sceneToRender.render()
+	CreateScene.render()
 })
