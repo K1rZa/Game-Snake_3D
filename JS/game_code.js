@@ -53,9 +53,6 @@ const createScene = function () {
 	)
 	light_global.intensity = 0.8
 
-	var shadow = new BABYLON.ShadowGenerator(512, light)
-	shadow.usePoissonSampling = true
-
 	const ground_material = new BABYLON.StandardMaterial('ground_material', scene)
 	ground_material.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3)
 	var ground = BABYLON.MeshBuilder.CreateBox(
