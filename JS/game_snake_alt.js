@@ -234,8 +234,8 @@ const createScene = function () {
 					if (food.position.x == snake.posX && food.position.z == snake.posZ) {
 						food != null
 
-						snake.Length += 100
-						score += 100
+						snake.Length += 1
+						score += 1
 
 						food.position.x = getFoodPosition().x
 						food.position.z = getFoodPosition().z
