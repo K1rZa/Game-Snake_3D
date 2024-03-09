@@ -1,17 +1,44 @@
 const canvas = document.getElementById('game')
 
-var startRenderLoop = function (engine, canvas) {
+var engine = null
+var scene = null
+var sceneToRender = null
+
+var tile = 32
+
+var score = 0
+
+var snake = {
+	dirX: 0,
+	dirZ: 0,
+	posX: 0,
+	posZ: 0,
+	Length: 1,
+	Last: 0,
+}
+var snakeArray = []
+
+function getRandomInt(min, max) {
+	return Math.floor(Math.random() * (max - (min - 1))) + min
+}
+function getFoodPosition() {
+	let x = getRandomInt(-9, 9) * tile
+	let z = getRandomInt(-9, 9) * tile
+
+	return {
+		x: x,
+		z: z,
+	}
+}
+
+const startRenderLoop = function (engine, canvas) {
 	engine.runRenderLoop(function () {
 		if (sceneToRender && sceneToRender.activeCamera) {
 			sceneToRender.render()
 		}
 	})
 }
-
-var engine = null
-var scene = null
-var sceneToRender = null
-var createDefaultEngine = function () {
+const createDefaultEngine = function () {
 	return new BABYLON.Engine(canvas, true, {
 		preserveDrawingBuffer: true,
 		stencil: true,
@@ -38,6 +65,7 @@ const createScene = function () {
 	)
 	camera.wheelDeltaPercentage = 0.01
 	camera.setTarget(new BABYLON.Vector3(0, 16, 0))
+	camera.attachControl(canvas, false)
 
 	const globallight = new BABYLON.HemisphericLight(
 		'globallight',
@@ -66,7 +94,7 @@ const createScene = function () {
 	const foodMaterial = new BABYLON.StandardMaterial('foodMat', scene)
 	foodMaterial.diffuseColor = new BABYLON.Color3.FromHexString('#ff0000')
 
-	const ground = BABYLON.MeshBuilder.CreateBox(
+	ground = BABYLON.MeshBuilder.CreateBox(
 		'ground',
 		{
 			height: 32,
@@ -79,7 +107,7 @@ const createScene = function () {
 	ground.material = groundMaterial
 	ground.receiveShadows = true
 
-	const food = BABYLON.MeshBuilder.CreateSphere(
+	food = BABYLON.MeshBuilder.CreateSphere(
 		'food',
 		{
 			segments: 2,
@@ -87,15 +115,139 @@ const createScene = function () {
 		},
 		scene
 	)
-	food.position.x = 0
-	food.position.z = 0
+	food.position.x = getFoodPosition().x
+	food.position.z = getFoodPosition().z
 	food.material = foodMaterial
 	food.castShadow = true
 	food.receiveShadows = true
 	shadow.getShadowMap().renderList.push(food)
 
-	scene.registerBeforeRender(() => {})
-	scene.registerAfterRender(() => {})
+	var hl = new BABYLON.HighlightLayer('hl1', scene)
+
+	scene.registerBeforeRender(() => {
+		if (Date.now() - snake.Last >= 100) {
+			snake.posX += snake.dirX
+			snake.posZ += snake.dirZ
+			snakeCell = BABYLON.MeshBuilder.CreateBox('box', {
+				height: 32,
+				width: 28,
+				depth: 28,
+			})
+			snakeCell.material = snakeCellMaterial
+			shadow.getShadowMap().renderList.push(snakeCell)
+
+			snakeCell.position.x = snake.posX
+			snakeCell.position.z = snake.posZ
+			snakeArray.push(snakeCell)
+			snake.Last = Date.now()
+		}
+
+		if (snakeArray.length > snake.Length) {
+			scene.removeMesh(snakeArray[0])
+			snakeArray[0].dispose()
+			snakeArray.shift()
+		}
+
+		window.addEventListener('keydown', control)
+		function control(event) {
+			const key = event.key
+			let dir
+			if (
+				(key == 'ArrowUp' || key == 'w' || key == 'ц') &&
+				dir != 'ArrowDown'
+			) {
+				dir = 'ArrowUp'
+				snake.dirZ = tile
+				snake.dirX = 0
+
+				/*for (let i = 0; i < snakeArray.length; i++) {
+					if (i > 0 && snakeCell.material != foodMaterial) {
+						snakeCell.scaling = new BABYLON.Vector3(1.14, 1, 1.14)
+						snakeCell.material = snakeCornerMaterial
+					}
+				}*/
+
+				return dir
+			} else if (
+				(key == 'ArrowDown' || key == 's' || key == 'ы') &&
+				dir != 'ArrowUp'
+			) {
+				dir = 'ArrowDown'
+				snake.dirZ = -tile
+				snake.dirX = 0
+
+				/*for (let i = 0; i < snakeArray.length; i++) {
+					if (i > 0 && snakeCell.material != foodMaterial) {
+						snakeCell.scaling = new BABYLON.Vector3(1.14, 1, 1.14)
+						snakeCell.material = snakeCornerMaterial
+					}
+				}*/
+
+				return dir
+			} else if (
+				(key == 'ArrowLeft' || key == 'a' || key == 'ф') &&
+				dir != 'ArrowRight'
+			) {
+				dir = 'ArrowLeft'
+				snake.dirX = -tile
+				snake.dirZ = 0
+
+				/*for (let i = 0; i < snakeArray.length; i++) {
+					if (i > 0 && snakeCell.material != foodMaterial) {
+						snakeCell.scaling = new BABYLON.Vector3(1.14, 1, 1.14)
+						snakeCell.material = snakeCornerMaterial
+					}
+				}*/
+
+				return dir
+			} else if (
+				(key == 'ArrowRight' || key == 'd' || key == 'в') &&
+				dir != 'ArrowLeft'
+			) {
+				dir = 'ArrowRight'
+				snake.dirX = tile
+				snake.dirZ = 0
+
+				/*for (let i = 0; i < snakeArray.length; i++) {
+					if (i > 0 && snakeCell.material != foodMaterial) {
+						snakeCell.scaling = new BABYLON.Vector3(1.14, 1, 1.14)
+						snakeCell.material = snakeCornerMaterial
+					}
+				}*/
+
+				return dir
+			} else if (key == 'r' || key == 'к') {
+				snake.dirX = 0
+				snake.dirZ = 0
+			}
+		}
+	})
+	scene.registerAfterRender(() => {
+		if (food != null) {
+			if (snakeArray[snakeArray.length - 1] != null) {
+				if (food.position.x == snake.posX && food.position.z == snake.posZ) {
+					food != null
+
+					snake.Length += 1
+					score += 1
+
+					food.position.x = getFoodPosition().x
+					food.position.z = getFoodPosition().z
+
+					snakeCell.scaling = new BABYLON.Vector3(1.5, 1, 1.5)
+					snakeCell.material = foodMaterial
+				}
+			}
+		} else {
+			for (var i = 0; i < snakeArray.length; i++)
+				setTimeout(() => {
+					hl.removeMesh(snakeArray[i])
+				}, 100)
+		}
+
+		var score_draw = document.getElementById('score')
+		score_draw.innerHTML = score
+	})
 
 	return scene
 }
