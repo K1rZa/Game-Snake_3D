@@ -125,7 +125,7 @@ const createScene = function () {
 	var hl = new BABYLON.HighlightLayer('hl1', scene)
 
 	scene.registerBeforeRender(() => {
-		if (Date.now() - snake.Last >= 100) {
+		if (Date.now() - snake.Last >= 125) {
 			snake.posX += snake.dirX
 			snake.posZ += snake.dirZ
 			snakeCell = BABYLON.MeshBuilder.CreateBox('box', {
@@ -223,26 +223,42 @@ const createScene = function () {
 		}
 	})
 	scene.registerAfterRender(() => {
-		if (food != null) {
-			if (snakeArray[snakeArray.length - 1] != null) {
-				if (food.position.x == snake.posX && food.position.z == snake.posZ) {
-					food != null
+		if (
+			snake.posX < 10.5 * tile &&
+			snake.posX > -10.5 * tile &&
+			snake.posZ < 10.5 * tile &&
+			snake.posZ > -10.5 * tile
+		) {
+			if (food != null) {
+				if (snakeArray[snakeArray.length - 1] != null) {
+					if (food.position.x == snake.posX && food.position.z == snake.posZ) {
+						food != null
 
-					snake.Length += 1
-					score += 1
+						snake.Length += 10
+						score += 10
 
-					food.position.x = getFoodPosition().x
-					food.position.z = getFoodPosition().z
+						food.position.x = getFoodPosition().x
+						food.position.z = getFoodPosition().z
 
-					snakeCell.scaling = new BABYLON.Vector3(1.5, 1.5, 1.5)
-					snakeCell.material = foodMaterial
+						snakeCell.scaling = new BABYLON.Vector3(1.5, 1.5, 1.5)
+						snakeCell.material = foodMaterial
+					}
 				}
+			} else {
+				for (var i = 0; i < snakeArray.length; i++)
+					setTimeout(() => {
+						hl.removeMesh(snakeArray[i])
+					}, 100)
 			}
 		} else {
-			for (var i = 0; i < snakeArray.length; i++)
-				setTimeout(() => {
-					hl.removeMesh(snakeArray[i])
-				}, 100)
+			//window.location.reload()
+			snake.posX = 0
+			snake.posZ = 0
+			snake.dirX = 0
+			snake.dirZ = 0
+			snake.Length = 1
+			snake.Last = 0
+			score = 0
 		}
 
 		var score_draw = document.getElementById('score')
