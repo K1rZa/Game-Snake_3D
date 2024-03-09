@@ -129,7 +129,7 @@ const createScene = function () {
 			snake.posX += snake.dirX
 			snake.posZ += snake.dirZ
 			snakeCell = BABYLON.MeshBuilder.CreateBox('box', {
-				height: 32,
+				height: 28,
 				width: 28,
 				depth: 28,
 			})
@@ -234,7 +234,7 @@ const createScene = function () {
 					food.position.x = getFoodPosition().x
 					food.position.z = getFoodPosition().z
 
-					snakeCell.scaling = new BABYLON.Vector3(1.5, 1, 1.5)
+					snakeCell.scaling = new BABYLON.Vector3(1.5, 1.5, 1.5)
 					snakeCell.material = foodMaterial
 				}
 			}
