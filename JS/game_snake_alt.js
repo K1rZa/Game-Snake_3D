@@ -154,7 +154,7 @@ const createScene = function () {
 			let dir
 			if (
 				(key == 'ArrowUp' || key == 'w' || key == 'ц') &&
-				dir != 'ArrowDown'
+				dir !== 'ArrowDown'
 			) {
 				dir = 'ArrowUp'
 				snake.dirZ = tile
@@ -170,7 +170,7 @@ const createScene = function () {
 				return dir
 			} else if (
 				(key == 'ArrowDown' || key == 's' || key == 'ы') &&
-				dir != 'ArrowUp'
+				dir !== 'ArrowUp'
 			) {
 				dir = 'ArrowDown'
 				snake.dirZ = -tile
@@ -186,7 +186,7 @@ const createScene = function () {
 				return dir
 			} else if (
 				(key == 'ArrowLeft' || key == 'a' || key == 'ф') &&
-				dir != 'ArrowRight'
+				dir !== 'ArrowRight'
 			) {
 				dir = 'ArrowLeft'
 				snake.dirX = -tile
@@ -202,7 +202,7 @@ const createScene = function () {
 				return dir
 			} else if (
 				(key == 'ArrowRight' || key == 'd' || key == 'в') &&
-				dir != 'ArrowLeft'
+				dir !== 'ArrowLeft'
 			) {
 				dir = 'ArrowRight'
 				snake.dirX = tile
@@ -247,7 +247,7 @@ const createScene = function () {
 			} else {
 				for (var i = 0; i < snakeArray.length; i++)
 					setTimeout(() => {
-						hl.removeMesh(snakeArray[i])
+						removeMesh(snakeArray[i])
 					}, 100)
 			}
 		} else {
