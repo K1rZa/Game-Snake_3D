@@ -151,12 +151,12 @@ const createScene = function () {
 		window.addEventListener('keydown', control)
 		function control(event) {
 			const key = event.key
-			let dir
+			var dir
 			if (
 				(key == 'ArrowUp' || key == 'w' || key == 'ц') &&
-				dir !== 'ArrowDown'
+				dir !== 'Down'
 			) {
-				dir = 'ArrowUp'
+				dir = 'Up'
 				snake.dirZ = tile
 				snake.dirX = 0
 
@@ -166,13 +166,11 @@ const createScene = function () {
 						snakeCell.material = snakeCornerMaterial
 					}
 				}*/
-
-				return dir
 			} else if (
 				(key == 'ArrowDown' || key == 's' || key == 'ы') &&
-				dir !== 'ArrowUp'
+				dir !== 'Up'
 			) {
-				dir = 'ArrowDown'
+				dir = 'Down'
 				snake.dirZ = -tile
 				snake.dirX = 0
 
@@ -182,13 +180,11 @@ const createScene = function () {
 						snakeCell.material = snakeCornerMaterial
 					}
 				}*/
-
-				return dir
 			} else if (
 				(key == 'ArrowLeft' || key == 'a' || key == 'ф') &&
-				dir !== 'ArrowRight'
+				dir !== 'Right'
 			) {
-				dir = 'ArrowLeft'
+				dir = 'Left'
 				snake.dirX = -tile
 				snake.dirZ = 0
 
@@ -198,13 +194,11 @@ const createScene = function () {
 						snakeCell.material = snakeCornerMaterial
 					}
 				}*/
-
-				return dir
 			} else if (
 				(key == 'ArrowRight' || key == 'd' || key == 'в') &&
-				dir !== 'ArrowLeft'
+				dir !== 'Left'
 			) {
-				dir = 'ArrowRight'
+				dir = 'Right'
 				snake.dirX = tile
 				snake.dirZ = 0
 
@@ -214,8 +208,6 @@ const createScene = function () {
 						snakeCell.material = snakeCornerMaterial
 					}
 				}*/
-
-				return dir
 			} else if (key == 'r' || key == 'к') {
 				snake.dirX = 0
 				snake.dirZ = 0
