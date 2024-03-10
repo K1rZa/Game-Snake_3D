@@ -224,16 +224,15 @@ const createScene = function () {
 			if (food != null) {
 				if (snakeArray[snakeArray.length - 1] != null) {
 					if (food.position.x == snake.posX && food.position.z == snake.posZ) {
-						food != null
-
 						snake.Length += 1
 						score += 1
 
-						food.position.x = getFoodPosition().x
-						food.position.z = getFoodPosition().z
-
 						snakeCell.scaling = new BABYLON.Vector3(1.5, 1.5, 1.5)
 						snakeCell.material = foodMaterial
+
+						food != null
+						food.position.x = getFoodPosition().x
+						food.position.z = getFoodPosition().z
 					}
 				}
 			} else {
