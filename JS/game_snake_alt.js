@@ -147,6 +147,34 @@ const createScene = function () {
 				snakeCell.position.z = snakeArray[i].posZ
 			}
 		}
+
+		window.addEventListener('keydown', control)
+		function control(event) {
+			const key = event.key
+			var dir
+			if ((key == 'ArrowUp' || key == 'w' || key == 'ц') && dir !== 'Down') {
+				dir = 'Up'
+				snakehead.z += tile
+			} else if (
+				(key == 'ArrowDown' || key == 's' || key == 'ы') &&
+				dir !== 'Up'
+			) {
+				dir = 'Down'
+				snakehead.z -= tile
+			} else if (
+				(key == 'ArrowLeft' || key == 'a' || key == 'ф') &&
+				dir !== 'Right'
+			) {
+				dir = 'Left'
+				snakehead.x -= tile
+			} else if (
+				(key == 'ArrowRight' || key == 'd' || key == 'в') &&
+				dir !== 'Left'
+			) {
+				dir = 'Right'
+				snakehead.x += tile
+			}
+		}
 	})
 	scene.registerAfterRender(() => {
 		var score_draw = document.getElementById('score')
