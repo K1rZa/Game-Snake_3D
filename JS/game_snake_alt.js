@@ -7,13 +7,14 @@ var sceneToRender = null
 var tile = 32
 
 var score = 0
+var speed = 100
 
 var snake = {
 	dirX: 0,
 	dirZ: 0,
 	posX: 0,
 	posZ: 0,
-	Length: 1,
+	Length: 2,
 	Last: 0,
 }
 var snakeArray = []
@@ -86,7 +87,7 @@ const createScene = function () {
 	const groundMaterial = new BABYLON.StandardMaterial('groundMat', scene)
 	groundMaterial.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3)
 	const snakeHeadMaterial = new BABYLON.StandardMaterial('snakeHeadMat', scene)
-	snakeHeadMaterial.diffuseColor = new BABYLON.Color3.FromHexString('#0969d6')
+	snakeHeadMaterial.diffuseColor = new BABYLON.Color3.FromHexString('#06819c')
 	const snakeCellMaterial = new BABYLON.StandardMaterial('snakeCellMat', scene)
 	snakeCellMaterial.diffuseColor = new BABYLON.Color3.FromHexString('#09b1d6')
 	const snakeCornerMaterial = new BABYLON.StandardMaterial('snakeCorMat', scene)
@@ -125,15 +126,27 @@ const createScene = function () {
 	var hl = new BABYLON.HighlightLayer('hl1', scene)
 
 	scene.registerBeforeRender(() => {
-		if (Date.now() - snake.Last >= 125) {
+		if (Date.now() - snake.Last >= speed) {
 			snake.posX += snake.dirX
 			snake.posZ += snake.dirZ
-			snakeCell = BABYLON.MeshBuilder.CreateBox('box', {
-				height: 28,
-				width: 28,
-				depth: 28,
+			snakeCell = BABYLON.MeshBuilder.CreateBox('snakeCell', {
+				height: 32,
+				width: 32,
+				depth: 32,
 			})
-			snakeCell.material = snakeCellMaterial
+
+			for (let i = 0; i < snakeArray.length; i++) {
+				if (snakeArray[snakeArray.length - 1].material != foodMaterial) {
+					snakeArray[snakeArray.length - 1].material = snakeCellMaterial
+					snakeArray[snakeArray.length - 1].scaling = new BABYLON.Vector3(
+						0.875,
+						0.875,
+						0.875
+					)
+				}
+			}
+
+			snakeCell.material = snakeHeadMaterial
 			shadow.getShadowMap().renderList.push(snakeCell)
 
 			snakeCell.position.x = snake.posX
@@ -152,20 +165,10 @@ const createScene = function () {
 		function control(event) {
 			const key = event.key
 			var dir
-			if (
-				(key == 'ArrowUp' || key == 'w' || key == 'ц') &&
-				dir !== 'Down'
-			) {
+			if ((key == 'ArrowUp' || key == 'w' || key == 'ц') && dir !== 'Down') {
 				dir = 'Up'
 				snake.dirZ = tile
 				snake.dirX = 0
-
-				/*for (let i = 0; i < snakeArray.length; i++) {
-					if (i > 0 && snakeCell.material != foodMaterial) {
-						snakeCell.scaling = new BABYLON.Vector3(1.14, 1, 1.14)
-						snakeCell.material = snakeCornerMaterial
-					}
-				}*/
 			} else if (
 				(key == 'ArrowDown' || key == 's' || key == 'ы') &&
 				dir !== 'Up'
@@ -173,13 +176,6 @@ const createScene = function () {
 				dir = 'Down'
 				snake.dirZ = -tile
 				snake.dirX = 0
-
-				/*for (let i = 0; i < snakeArray.length; i++) {
-					if (i > 0 && snakeCell.material != foodMaterial) {
-						snakeCell.scaling = new BABYLON.Vector3(1.14, 1, 1.14)
-						snakeCell.material = snakeCornerMaterial
-					}
-				}*/
 			} else if (
 				(key == 'ArrowLeft' || key == 'a' || key == 'ф') &&
 				dir !== 'Right'
@@ -187,13 +183,6 @@ const createScene = function () {
 				dir = 'Left'
 				snake.dirX = -tile
 				snake.dirZ = 0
-
-				/*for (let i = 0; i < snakeArray.length; i++) {
-					if (i > 0 && snakeCell.material != foodMaterial) {
-						snakeCell.scaling = new BABYLON.Vector3(1.14, 1, 1.14)
-						snakeCell.material = snakeCornerMaterial
-					}
-				}*/
 			} else if (
 				(key == 'ArrowRight' || key == 'd' || key == 'в') &&
 				dir !== 'Left'
@@ -201,13 +190,6 @@ const createScene = function () {
 				dir = 'Right'
 				snake.dirX = tile
 				snake.dirZ = 0
-
-				/*for (let i = 0; i < snakeArray.length; i++) {
-					if (i > 0 && snakeCell.material != foodMaterial) {
-						snakeCell.scaling = new BABYLON.Vector3(1.14, 1, 1.14)
-						snakeCell.material = snakeCornerMaterial
-					}
-				}*/
 			} else if (key == 'r' || key == 'к') {
 				snake.dirX = 0
 				snake.dirZ = 0
@@ -228,6 +210,7 @@ const createScene = function () {
 						score += 1
 
 						snakeCell.scaling = new BABYLON.Vector3(1.5, 1.5, 1.5)
+						snakeArray[snakeArray.length - 1].material = foodMaterial
 						snakeCell.material = foodMaterial
 
 						food != null
