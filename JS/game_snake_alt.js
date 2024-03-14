@@ -8,15 +8,16 @@ var tile = 32
 
 var score = 0
 
-var snake = {
-	dirX: 0,
-	dirZ: 0,
+var snakeArray = []
+
+snakeArray[0] = {
 	posX: 0,
 	posZ: 0,
-	Length: 1,
-	Last: 0,
 }
-var snakeArray = []
+var snakehead = {
+	x: snakeArray[0].posX,
+	z: snakeArray[0].posZ,
+}
 
 function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - (min - 1))) + min
@@ -125,7 +126,27 @@ const createScene = function () {
 	var hl = new BABYLON.HighlightLayer('hl1', scene)
 
 	scene.registerBeforeRender(() => {
-
+		for (let i = 0; i < snakeArray.length; i++) {
+			if (i == 0) {
+				snakeHead = new BABYLON.MeshBuilder.CreateBox(
+					'snakeHead',
+					{ width: 32, height: 32, depth: 32 },
+					scene
+				)
+				snakeHead.material = snakeHeadMaterial
+				snakeHead.position.x = snakehead.x
+				snakeHead.position.z = snakehead.z
+			} else {
+				snakeCell = new BABYLON.MeshBuilder.CreateBox(
+					'snakeCell',
+					{ width: 28, height: 28, depth: 28 },
+					scene
+				)
+				snakeCell.material = snakeCellMaterial
+				snakeCell.position.x = snakeArray[i].posX
+				snakeCell.position.z = snakeArray[i].posZ
+			}
+		}
 	})
 	scene.registerAfterRender(() => {
 		var score_draw = document.getElementById('score')
