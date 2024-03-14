@@ -14,7 +14,7 @@ var snake = {
 	dirZ: 0,
 	posX: 0,
 	posZ: 0,
-	Length: 2,
+	Length: 1,
 	Last: 0,
 }
 var snakeArray = []
