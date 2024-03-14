@@ -7,7 +7,7 @@ var sceneToRender = null
 var tile = 32
 
 var score = 0
-var speed = 100
+var speed = 150
 
 var snake = {
 	dirX: 0,
@@ -66,7 +66,7 @@ const createScene = function () {
 	)
 	camera.wheelDeltaPercentage = 0.01
 	camera.setTarget(new BABYLON.Vector3(0, 16, 0))
-	camera.attachControl(canvas, false)
+	//camera.attachControl(canvas, false)
 
 	const globallight = new BABYLON.HemisphericLight(
 		'globallight',
@@ -139,10 +139,11 @@ const createScene = function () {
 				if (snakeArray[snakeArray.length - 1].material != foodMaterial) {
 					snakeArray[snakeArray.length - 1].material = snakeCellMaterial
 					snakeArray[snakeArray.length - 1].scaling = new BABYLON.Vector3(
+						1,
 						0.875,
-						0.875,
-						0.875
+						1
 					)
+					snakeArray[snakeArray.length - 1].position.y = -2
 				}
 			}
 
@@ -216,6 +217,14 @@ const createScene = function () {
 						food != null
 						food.position.x = getFoodPosition().x
 						food.position.z = getFoodPosition().z
+
+						if (score >= 5 && score <= 20) {
+							speed = 125
+						} else if (score >= 20) {
+							speed = 100
+						} else {
+							speed = 150
+						}
 					}
 				}
 			} else {
@@ -233,6 +242,7 @@ const createScene = function () {
 			snake.Length = 1
 			snake.Last = 0
 			score = 0
+			speed = 100
 		}
 
 		var score_draw = document.getElementById('score')
