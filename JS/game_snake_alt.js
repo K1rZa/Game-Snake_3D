@@ -242,7 +242,7 @@ const createScene = function () {
 			snake.Length = 1
 			snake.Last = 0
 			score = 0
-			speed = 100
+			speed = 150
 		}
 
 		var score_draw = document.getElementById('score')
