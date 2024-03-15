@@ -111,8 +111,8 @@ const createScene = function () {
 	food = BABYLON.MeshBuilder.CreateSphere(
 		'food',
 		{
-			segments: 2,
-			diameter: 32,
+			segments: 6,
+			diameter: 42,
 		},
 		scene
 	)
