@@ -135,19 +135,7 @@ const createScene = function () {
 				depth: 32,
 			})
 
-			for (let i = 0; i < snakeArray.length; i++) {
-				if (snakeArray[snakeArray.length - 1].material != foodMaterial) {
-					snakeArray[snakeArray.length - 1].material = snakeCellMaterial
-					snakeArray[snakeArray.length - 1].scaling = new BABYLON.Vector3(
-						1,
-						0.875,
-						1
-					)
-					snakeArray[snakeArray.length - 1].position.y = -2
-				}
-			}
-
-			snakeCell.material = snakeHeadMaterial
+			snakeCell.material = snakeCellMaterial
 			shadow.getShadowMap().renderList.push(snakeCell)
 
 			snakeCell.position.x = snake.posX
@@ -211,20 +199,23 @@ const createScene = function () {
 						score += 1
 
 						snakeCell.scaling = new BABYLON.Vector3(1.5, 1.5, 1.5)
-						snakeArray[snakeArray.length - 1].material = foodMaterial
-						snakeCell.material = foodMaterial
+						//snakeCell.material = foodMaterial
 
 						food != null
 						food.position.x = getFoodPosition().x
 						food.position.z = getFoodPosition().z
 
-						if (score >= 5 && score <= 20) {
-							speed = 125
-						} else if (score >= 20) {
-							speed = 100
-						} else {
-							speed = 150
+						if (speed > 100) {
+							speed -= 1
 						}
+
+						//if (score >= 5 && score <= 20) {
+						//	speed = 125
+						//} else if (score >= 20) {
+						//	speed = 100
+						//} else {
+						//	speed = 150
+						//}
 					}
 				}
 			} else {
