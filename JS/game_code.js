@@ -75,21 +75,21 @@ const createScene = function () {
 			ShadowGenerator.addShadowCaster(test_ground)
 			test_ground.receiveShadows = true
 		}
-	)
+	)*/
 	BABYLON.SceneLoader.ImportMesh(
 		null,
 		'./Resources/',
-		'test_box.glb',
+		'snakehead.glb',
 		scene,
 		function (meshArray) {
 			test_box = meshArray[0]
 			test_box.rotation = new BABYLON.Vector3(0, (Math.PI * 0) / 180, 0)
-			test_box.scaling = new BABYLON.Vector3(20, 22, 32)
-			test_box.position = new BABYLON.Vector3(0, 16, 0)
+			test_box.scaling = new BABYLON.Vector3(12, 12, 12)
+			test_box.position.y = 16
 			ShadowGenerator.addShadowCaster(test_box)
 			test_box.receiveShadows = true
 		}
-	)*/
+	)
 
 	const box_material = new BABYLON.StandardMaterial('box_material', scene)
 	box_material.diffuseColor = new BABYLON.Color3.FromHexString('#09b1d6')

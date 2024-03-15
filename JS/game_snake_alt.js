@@ -7,6 +7,7 @@ var sceneToRender = null
 var tile = 32
 
 var score = 0
+var speed = 150
 
 var snake = {
 	dirX: 0,
@@ -65,7 +66,7 @@ const createScene = function () {
 	)
 	camera.wheelDeltaPercentage = 0.01
 	camera.setTarget(new BABYLON.Vector3(0, 16, 0))
-	camera.attachControl(canvas, false)
+	//camera.attachControl(canvas, false)
 
 	const globallight = new BABYLON.HemisphericLight(
 		'globallight',
@@ -86,7 +87,7 @@ const createScene = function () {
 	const groundMaterial = new BABYLON.StandardMaterial('groundMat', scene)
 	groundMaterial.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3)
 	const snakeHeadMaterial = new BABYLON.StandardMaterial('snakeHeadMat', scene)
-	snakeHeadMaterial.diffuseColor = new BABYLON.Color3.FromHexString('#0969d6')
+	snakeHeadMaterial.diffuseColor = new BABYLON.Color3.FromHexString('#06819c')
 	const snakeCellMaterial = new BABYLON.StandardMaterial('snakeCellMat', scene)
 	snakeCellMaterial.diffuseColor = new BABYLON.Color3.FromHexString('#09b1d6')
 	const snakeCornerMaterial = new BABYLON.StandardMaterial('snakeCorMat', scene)
@@ -110,8 +111,8 @@ const createScene = function () {
 	food = BABYLON.MeshBuilder.CreateSphere(
 		'food',
 		{
-			segments: 2,
-			diameter: 32,
+			segments: 6,
+			diameter: 42,
 		},
 		scene
 	)
@@ -125,14 +126,15 @@ const createScene = function () {
 	var hl = new BABYLON.HighlightLayer('hl1', scene)
 
 	scene.registerBeforeRender(() => {
-		if (Date.now() - snake.Last >= 125) {
+		if (Date.now() - snake.Last >= speed) {
 			snake.posX += snake.dirX
 			snake.posZ += snake.dirZ
-			snakeCell = BABYLON.MeshBuilder.CreateBox('box', {
-				height: 28,
-				width: 28,
-				depth: 28,
+			snakeCell = BABYLON.MeshBuilder.CreateBox('snakeCell', {
+				height: 32,
+				width: 32,
+				depth: 32,
 			})
+
 			snakeCell.material = snakeCellMaterial
 			shadow.getShadowMap().renderList.push(snakeCell)
 
@@ -152,20 +154,10 @@ const createScene = function () {
 		function control(event) {
 			const key = event.key
 			var dir
-			if (
-				(key == 'ArrowUp' || key == 'w' || key == 'ц') &&
-				dir !== 'Down'
-			) {
+			if ((key == 'ArrowUp' || key == 'w' || key == 'ц') && dir !== 'Down') {
 				dir = 'Up'
 				snake.dirZ = tile
 				snake.dirX = 0
-
-				/*for (let i = 0; i < snakeArray.length; i++) {
-					if (i > 0 && snakeCell.material != foodMaterial) {
-						snakeCell.scaling = new BABYLON.Vector3(1.14, 1, 1.14)
-						snakeCell.material = snakeCornerMaterial
-					}
-				}*/
 			} else if (
 				(key == 'ArrowDown' || key == 's' || key == 'ы') &&
 				dir !== 'Up'
@@ -173,13 +165,6 @@ const createScene = function () {
 				dir = 'Down'
 				snake.dirZ = -tile
 				snake.dirX = 0
-
-				/*for (let i = 0; i < snakeArray.length; i++) {
-					if (i > 0 && snakeCell.material != foodMaterial) {
-						snakeCell.scaling = new BABYLON.Vector3(1.14, 1, 1.14)
-						snakeCell.material = snakeCornerMaterial
-					}
-				}*/
 			} else if (
 				(key == 'ArrowLeft' || key == 'a' || key == 'ф') &&
 				dir !== 'Right'
@@ -187,13 +172,6 @@ const createScene = function () {
 				dir = 'Left'
 				snake.dirX = -tile
 				snake.dirZ = 0
-
-				/*for (let i = 0; i < snakeArray.length; i++) {
-					if (i > 0 && snakeCell.material != foodMaterial) {
-						snakeCell.scaling = new BABYLON.Vector3(1.14, 1, 1.14)
-						snakeCell.material = snakeCornerMaterial
-					}
-				}*/
 			} else if (
 				(key == 'ArrowRight' || key == 'd' || key == 'в') &&
 				dir !== 'Left'
@@ -201,13 +179,6 @@ const createScene = function () {
 				dir = 'Right'
 				snake.dirX = tile
 				snake.dirZ = 0
-
-				/*for (let i = 0; i < snakeArray.length; i++) {
-					if (i > 0 && snakeCell.material != foodMaterial) {
-						snakeCell.scaling = new BABYLON.Vector3(1.14, 1, 1.14)
-						snakeCell.material = snakeCornerMaterial
-					}
-				}*/
 			} else if (key == 'r' || key == 'к') {
 				snake.dirX = 0
 				snake.dirZ = 0
@@ -228,11 +199,23 @@ const createScene = function () {
 						score += 1
 
 						snakeCell.scaling = new BABYLON.Vector3(1.5, 1.5, 1.5)
-						snakeCell.material = foodMaterial
+						//snakeCell.material = foodMaterial
 
 						food != null
 						food.position.x = getFoodPosition().x
 						food.position.z = getFoodPosition().z
+
+						if (speed > 100) {
+							speed -= 1
+						}
+
+						//if (score >= 5 && score <= 20) {
+						//	speed = 125
+						//} else if (score >= 20) {
+						//	speed = 100
+						//} else {
+						//	speed = 150
+						//}
 					}
 				}
 			} else {
@@ -250,6 +233,7 @@ const createScene = function () {
 			snake.Length = 1
 			snake.Last = 0
 			score = 0
+			speed = 150
 		}
 
 		var score_draw = document.getElementById('score')
