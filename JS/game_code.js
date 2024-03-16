@@ -113,7 +113,7 @@ const createScene = function () {
 	food.position.x = food_position().x
 	food.position.z = food_position().z
 
-	/*BABYLON.SceneLoader.ImportMesh(
+	BABYLON.SceneLoader.ImportMesh(
 		null,
 		'./Resources/',
 		'food.glb',
@@ -127,7 +127,7 @@ const createScene = function () {
 			ShadowGenerator.addShadowCaster(food)
 			food.receiveShadows = true
 		}
-	)*/
+	)
 
 	window.addEventListener('keydown', control)
 	function control(event) {

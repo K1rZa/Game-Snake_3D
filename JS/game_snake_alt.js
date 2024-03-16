@@ -7,7 +7,9 @@ var sceneToRender = null
 var tile = 32
 
 var score = 0
-var speed = 150
+var countGame = 0
+let maxScore = 0
+var speed = 125
 
 var snake = {
 	dirX: 0,
@@ -81,11 +83,13 @@ const createScene = function () {
 	)
 	dirlight.intensity = 0.4
 
-	const shadow = new BABYLON.ShadowGenerator(512, dirlight)
+	const shadow = new BABYLON.ShadowGenerator(1024, dirlight)
 	shadow.usePoissonSampling = true
 
 	const groundMaterial = new BABYLON.StandardMaterial('groundMat', scene)
-	groundMaterial.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3)
+	groundMaterial.diffuseColor = new BABYLON.Color3.FromHexString('#8f8f8f')
+	const borderMaterial = new BABYLON.StandardMaterial('borderMat', scene)
+	borderMaterial.diffuseColor = new BABYLON.Color3(0.3, 0.3, 0.3)
 	const snakeHeadMaterial = new BABYLON.StandardMaterial('snakeHeadMat', scene)
 	snakeHeadMaterial.diffuseColor = new BABYLON.Color3.FromHexString('#06819c')
 	const snakeCellMaterial = new BABYLON.StandardMaterial('snakeCellMat', scene)
@@ -107,6 +111,45 @@ const createScene = function () {
 	ground.position.y = -32
 	ground.material = groundMaterial
 	ground.receiveShadows = true
+
+	borderLeft = BABYLON.MeshBuilder.CreateBox(
+		'borderleft',
+		{
+			height: 64,
+			width: 32,
+			depth: 672,
+		},
+		scene
+	)
+	borderLeft.material = borderMaterial
+	borderLeft.position = new BABYLON.Vector3(-352, -16, 0)
+	shadow.getShadowMap().renderList.push(borderLeft)
+
+	borderRight = BABYLON.MeshBuilder.CreateBox(
+		'borderright',
+		{
+			height: 64,
+			width: 32,
+			depth: 672,
+		},
+		scene
+	)
+	borderRight.material = borderMaterial
+	borderRight.position = new BABYLON.Vector3(352, -16, 0)
+	shadow.getShadowMap().renderList.push(borderRight)
+
+	borderUp = BABYLON.MeshBuilder.CreateBox(
+		'borderup',
+		{
+			height: 64,
+			width: 736,
+			depth: 32,
+		},
+		scene
+	)
+	borderUp.material = borderMaterial
+	borderUp.position = new BABYLON.Vector3(0, -16, 352)
+	shadow.getShadowMap().renderList.push(borderUp)
 
 	food = BABYLON.MeshBuilder.CreateSphere(
 		'food',
@@ -199,7 +242,6 @@ const createScene = function () {
 						score += 1
 
 						snakeCell.scaling = new BABYLON.Vector3(1.5, 1.5, 1.5)
-						//snakeCell.material = foodMaterial
 
 						food != null
 						food.position.x = getFoodPosition().x
@@ -208,14 +250,32 @@ const createScene = function () {
 						if (speed > 100) {
 							speed -= 1
 						}
-
-						//if (score >= 5 && score <= 20) {
-						//	speed = 125
-						//} else if (score >= 20) {
-						//	speed = 100
-						//} else {
-						//	speed = 150
-						//}
+						
+						var score_draw_color = document.getElementById('score')
+						if (score >= 2 && score <= 3){							
+							score_draw_color.style.color = "red"
+						}					
+						else if (score >= 4 && score <= 5){							
+							score_draw_color.style.color = "orange"
+						}
+						else if (score >= 6 && score <= 7){							
+							score_draw_color.style.color = "yellow"
+						}
+						else if (score >= 8 && score <= 9){		
+							score_draw_color.style.color = "green"
+						}
+						else if (score >= 10 && score <= 11){
+							score_draw_color.style.color = "lightblue"
+						}
+						else if (score >= 12 && score <= 13){
+							score_draw_color.style.color = "blue"
+						}
+						else if (score >= 14 && score <= 15){
+							score_draw_color.style.color = "purple"
+						}
+						else {
+							score_draw_color.style.color = "white"
+						}
 					}
 				}
 			} else {
@@ -224,6 +284,7 @@ const createScene = function () {
 						removeMesh(snakeArray[i])
 					}, 100)
 			}
+			
 		} else {
 			//window.location.reload()
 			snake.posX = 0
@@ -233,11 +294,22 @@ const createScene = function () {
 			snake.Length = 1
 			snake.Last = 0
 			score = 0
-			speed = 150
+			speed = 125
+			countGame += 1
+			var score_draw_color = document.getElementById('score')
+			score_draw_color.style.color = "white"
 		}
 
+		if (score > maxScore){
+			maxScore = score
+			localStorage.setItem(maxScore, score)
+		}
 		var score_draw = document.getElementById('score')
 		score_draw.innerHTML = score
+		var stat_draw = document.getElementById('stat')
+		stat_draw.innerHTML = ('Game Over: ' + countGame)
+		var maxscore_draw = document.getElementById('maxscore')
+		maxscore_draw.innerHTML = ('High score: ' + +localStorage.getItem(maxScore))
 	})
 
 	return scene
