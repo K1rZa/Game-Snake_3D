@@ -250,31 +250,24 @@ const createScene = function () {
 						if (speed > 100) {
 							speed -= 1
 						}
-						
+
 						var score_draw_color = document.getElementById('score')
-						if (score >= 2 && score <= 3){							
-							score_draw_color.style.color = "red"
-						}					
-						else if (score >= 4 && score <= 5){							
-							score_draw_color.style.color = "orange"
-						}
-						else if (score >= 6 && score <= 7){							
-							score_draw_color.style.color = "yellow"
-						}
-						else if (score >= 8 && score <= 9){		
-							score_draw_color.style.color = "green"
-						}
-						else if (score >= 10 && score <= 11){
-							score_draw_color.style.color = "lightblue"
-						}
-						else if (score >= 12 && score <= 13){
-							score_draw_color.style.color = "blue"
-						}
-						else if (score >= 14 && score <= 15){
-							score_draw_color.style.color = "purple"
-						}
-						else {
-							score_draw_color.style.color = "white"
+						if (score >= 2 && score <= 3) {
+							score_draw_color.style.color = 'red'
+						} else if (score >= 4 && score <= 5) {
+							score_draw_color.style.color = 'orange'
+						} else if (score >= 6 && score <= 7) {
+							score_draw_color.style.color = 'yellow'
+						} else if (score >= 8 && score <= 9) {
+							score_draw_color.style.color = 'green'
+						} else if (score >= 10 && score <= 11) {
+							score_draw_color.style.color = 'lightblue'
+						} else if (score >= 12 && score <= 13) {
+							score_draw_color.style.color = 'blue'
+						} else if (score >= 14 && score <= 15) {
+							score_draw_color.style.color = 'purple'
+						} else {
+							score_draw_color.style.color = 'white'
 						}
 					}
 				}
@@ -284,7 +277,6 @@ const createScene = function () {
 						removeMesh(snakeArray[i])
 					}, 100)
 			}
-			
 		} else {
 			//window.location.reload()
 			snake.posX = 0
@@ -297,19 +289,19 @@ const createScene = function () {
 			speed = 125
 			countGame += 1
 			var score_draw_color = document.getElementById('score')
-			score_draw_color.style.color = "white"
+			score_draw_color.style.color = 'white'
 		}
 
-		if (score > maxScore){
+		if (score > maxScore) {
 			maxScore = score
 			localStorage.setItem(maxScore, score)
 		}
 		var score_draw = document.getElementById('score')
 		score_draw.innerHTML = score
 		var stat_draw = document.getElementById('stat')
-		stat_draw.innerHTML = ('Game Over: ' + countGame)
+		stat_draw.innerHTML = 'Game Over: ' + countGame
 		var maxscore_draw = document.getElementById('maxscore')
-		maxscore_draw.innerHTML = ('High score: ' + +localStorage.getItem(maxScore))
+		maxscore_draw.innerHTML = 'High score: ' + +localStorage.getItem(maxScore)
 	})
 
 	return scene
