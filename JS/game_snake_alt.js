@@ -14,8 +14,8 @@ var speed = 125
 var snake = {
 	dirX: 0,
 	dirZ: 0,
-	posX: 0,
-	posZ: 0,
+	posX: -320,
+	posZ: 320,
 	Length: 1,
 	Last: 0,
 }
@@ -279,8 +279,8 @@ const createScene = function () {
 			}
 		} else {
 			//window.location.reload()
-			snake.posX = 0
-			snake.posZ = 0
+			snake.posX = -320
+			snake.posZ = 320
 			snake.dirX = 0
 			snake.dirZ = 0
 			snake.Length = 1
