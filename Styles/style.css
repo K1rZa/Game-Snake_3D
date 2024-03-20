@@ -14,3 +14,17 @@
 	font-size: 60px;
 	color: white;
 }
+#stat {
+	position: absolute;
+	margin: 6% 0 0 85%;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 20px;
+	color: white;
+}
+#maxscore {
+	position: absolute;
+	margin: 2.5% 0 0 85%;
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 20px;
+	color: yellow;
+}
